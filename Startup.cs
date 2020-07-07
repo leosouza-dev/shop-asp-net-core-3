@@ -21,7 +21,7 @@ namespace Shop
         {
             services.AddControllers();
             services.AddDbContext<DataContext>(op => op.UseInMemoryDatabase("Database"));
-            services.AddScoped<DataContext, DataContext>();
+            services.AddScoped<DataContext, DataContext>(); // um datacontext por request
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
