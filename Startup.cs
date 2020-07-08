@@ -24,6 +24,7 @@ namespace Shop
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             // compressão - retorno do json vai "zipado" para cliente
             services.AddResponseCompression(options =>
             {
@@ -68,6 +69,11 @@ namespace Shop
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseAuthentication();
             app.UseAuthorization();
