@@ -10,12 +10,15 @@ using Shop.Models;
 namespace Shop.Controllers
 {
     [ApiController]
-    [Route("categories")]
+    [Route("v1/categories")]
     public class CategoryController : ControllerBase
     {
         [HttpGet]
         [Route("")]
         [AllowAnonymous]
+        //cacheando aplicação
+        [ResponseCache(VaryByHeader = "User-Agent", Location = ResponseCacheLocation.Any, Duration = 30)]
+        // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)] //usado quando não queremos cachear (quando startup configurado)
         public async Task<ActionResult<List<Category>>> Get([FromServices]DataContext context)
         {
             try

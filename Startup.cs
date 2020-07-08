@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Shop.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.Linq;
 
 namespace Shop
 {
@@ -22,6 +24,16 @@ namespace Shop
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // compressão - retorno do json vai "zipado" para cliente
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json" });
+            });
+
+            // add cache de forma global a aplicação - podemos fazer mais especifico em cada action
+            // services.AddResponseCaching();
+
             services.AddControllers();
 
             var key = Encoding.ASCII.GetBytes(settings.Secret); //convertendo a chave para bytes
